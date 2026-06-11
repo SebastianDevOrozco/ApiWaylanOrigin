@@ -1,0 +1,6 @@
+@API_Waylan_Origin_HostAddress = http://localhost:5280
+
+GET {{API_Waylan_Origin_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
