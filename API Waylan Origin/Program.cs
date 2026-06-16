@@ -60,6 +60,7 @@ builder.Services.AddAuthentication(options =>
 // --------------------------------
 
 builder.Services.AddScoped<IAuthService,AuthService>();
+builder.Services.AddScoped<IPerfilUsuarioService, PerfilUsuarioService>();
 
 // --------------------------------
 // 4. Registro de AutoMapper

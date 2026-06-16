@@ -7,6 +7,7 @@ namespace API_Waylan_Origin.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
+
     public class AuthController : ControllerBase
     {
 
