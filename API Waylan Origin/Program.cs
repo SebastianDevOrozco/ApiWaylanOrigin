@@ -6,7 +6,9 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using API_Waylan_Origin.Mapping;
 using System.Text;
-using System.Text.Json.Serialization; 
+using System.Text.Json.Serialization;
+using API_Waylan_Origin.Interfaces.Usuario;
+using API_Waylan_Origin.Services;
 
 
 
@@ -57,6 +59,7 @@ builder.Services.AddAuthentication(options =>
 // 3. Registro de servicios personalizados
 // --------------------------------
 
+builder.Services.AddScoped<IAuthService,AuthService>();
 
 // --------------------------------
 // 4. Registro de AutoMapper
