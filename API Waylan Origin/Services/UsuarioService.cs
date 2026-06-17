@@ -36,7 +36,7 @@ namespace API_Waylan_Origin.Services
                 .ToListAsync();
 
             if (usuarios == null)
-                return null;
+                return new List<UsuarioReadDto>();
 
             return _mapper.Map<IEnumerable<UsuarioReadDto>>(usuarios);
         }

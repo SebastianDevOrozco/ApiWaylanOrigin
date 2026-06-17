@@ -47,9 +47,6 @@ namespace API_Waylan_Origin.Controllers
         {
             var listaUsuarios = await _usuarioService.ListaUsuarios();
 
-            if(listaUsuarios == null)
-                NotFound("No se encuentran usuarios");
-
             return Ok(listaUsuarios);
         }
 

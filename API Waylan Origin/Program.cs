@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using API_Waylan_Origin.Interfaces.Usuario;
 using API_Waylan_Origin.Services;
+using API_Waylan_Origin.Interfaces.Categoria;
 
 
 
@@ -61,6 +62,7 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddScoped<IAuthService,AuthService>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddScoped<ICategoriaService, CategoriaService>();
 
 // --------------------------------
 // 4. Registro de AutoMapper
