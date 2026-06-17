@@ -13,8 +13,13 @@
 
 | Método | URL (Endpoint) | Descripción | Permisos |
 | :--- | :--- | :--- | :--- |
-| **GET** | `/api/categorias` | Lista todas las categorías disponibles. | Público |
-| **GET** | `/api/productos` | Lista todos los productos (solo los `Activo = true`). | Público |
+| **POST** | `/api/categorias` | Crea una categoria nueva. | Solo Admin |
+| **PUT** | `/api/categorias/{id}` | Actualiza datos de una categoria | Solo Admin |
+| **DELETE**| `/api/categorias/{id}` | Oculta una categoria (Borrado lógico `Activo = false`). | Solo Admin |
+| **GET** | `/api/categorias` | Lista todas las categorías disponibles. | Sola Admin |
+| **GET** | `/api/categorias/activas` | Lista todas las categorías disponibles filtradas(activo = true). | Público |
+| **GET** | `/api/productos/activos` | Lista todos los productos (solo los `Activo = true`). | Público |
+| **GET** | `/api/productos/` | Lista todos los productos | Solo Admin |
 | **GET** | `/api/productos/{id}` | Muestra el detalle de un solo producto. | Público |
 | **POST** | `/api/productos` | Crea un producto nuevo. | Solo Admin |
 | **PUT** | `/api/productos/{id}` | Actualiza datos de un producto (precio, stock, etc.). | Solo Admin |
