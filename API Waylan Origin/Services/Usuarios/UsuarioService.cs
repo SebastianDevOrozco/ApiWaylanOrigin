@@ -47,7 +47,7 @@ namespace API_Waylan_Origin.Services.Usuarios
                 .FirstOrDefaultAsync(u => u.Id == usuarioId);
 
             if (usuario == null)
-                return false;
+                throw new KeyNotFoundException($"El usuario con el ID {usuarioId} NO existe");
 
             //cambio de estado activo a = false. borrado logico
             usuario.Activo = false;

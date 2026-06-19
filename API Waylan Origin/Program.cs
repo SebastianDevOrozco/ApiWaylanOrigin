@@ -128,6 +128,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<API_Waylan_Origin.Middleware.ExceptionMiddleware>();
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();

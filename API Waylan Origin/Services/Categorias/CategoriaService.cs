@@ -60,7 +60,7 @@ namespace API_Waylan_Origin.Services.Categorias
                 .FirstOrDefaultAsync(c => c.Id == categoriaId);
 
             if (categoria == null)
-                return null;
+                throw new KeyNotFoundException($"La Categoria con el ID {categoriaId} No Existe");
 
             _mapper.Map(categoriaUpdateDto, categoria);
 
@@ -75,7 +75,7 @@ namespace API_Waylan_Origin.Services.Categorias
                 .FirstOrDefaultAsync(c => c.Id == idCategoria);
 
             if (categoria == null)
-                return false;
+                throw new KeyNotFoundException($"La Categoria con el ID {idCategoria} No Existe");
 
             categoria.Activo = false;
 

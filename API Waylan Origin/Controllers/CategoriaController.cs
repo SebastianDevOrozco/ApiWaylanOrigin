@@ -46,10 +46,6 @@ namespace API_Waylan_Origin.Controllers
         public async Task<ActionResult<CategoriaReadAdminDto>> ActualizarCategoria(int id, CategoriaUpdateDto updateDto)
         {
             var categoriaActualizada = await _categoriaService.ActualizarCategoria(id, updateDto);
-
-            if (categoriaActualizada == null)
-                return NotFound("Categoría no encontrada.");
-
             return Ok(categoriaActualizada);
         }
 
@@ -58,10 +54,6 @@ namespace API_Waylan_Origin.Controllers
         public async Task<IActionResult> DeleteCategoria(int id)
         {
             var categoria = await _categoriaService.EliminarCategoria(id);
-
-            if(!categoria)
-                return NotFound("Categoría no encontrada.");
-
             return NoContent();
         }
     }

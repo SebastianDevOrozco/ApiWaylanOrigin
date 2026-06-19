@@ -55,10 +55,6 @@ namespace API_Waylan_Origin.Controllers
         public async Task<IActionResult> DeleteUsuario(int id)
         {
             var Resultado = await _usuarioService.DeleteUsuario(id);
-
-            if(!Resultado)
-                return NotFound("El usuario no existe o ya fue eliminado");
-
             return NoContent();
         }
 

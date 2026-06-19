@@ -20,6 +20,8 @@ namespace API_Waylan_Origin.Services.Productos
 
         public async Task<ProductoReadAdminDto> CrearProducto(ProductoCreateDto productoCreate)
         {
+            await ValidarCategoria(productoCreate.IdCategoria);
+    
             var productoNuevo = _mapper.Map<Producto>(productoCreate);
 
             productoNuevo.Activo = true;
@@ -64,7 +66,9 @@ namespace API_Waylan_Origin.Services.Productos
                 .FirstOrDefaultAsync(p => p.Id == id);
 
             if (producto == null)
-                return null;
+                throw new KeyNotFoundException($"El Producto con el ID {id} No Existe");
+
+            await ValidarCategoria(productoUpdate.IdCategoria);
 
             _mapper.Map(productoUpdate, producto);
             await _appDbContext.SaveChangesAsync();
@@ -82,12 +86,24 @@ namespace API_Waylan_Origin.Services.Productos
 
 
             if (producto == null)
-                return false;
+                throw new KeyNotFoundException($"El Producto con el ID {id} No Existe");
 
             producto.Activo = false;
             await _appDbContext.SaveChangesAsync();
 
             return true;
+
+        }
+
+
+        //METODOS SECUNDARIOS
+        private async Task ValidarCategoria(int id)
+        {
+            var existeCategoria = await _appDbContext.categorias
+                .AnyAsync(c => c.Id == id && c.Activo);
+
+            if (!existeCategoria)
+                throw new KeyNotFoundException($"La categoria con el ID {id} NO existe");
 
         }
     }

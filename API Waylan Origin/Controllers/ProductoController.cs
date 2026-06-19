@@ -45,10 +45,6 @@ namespace API_Waylan_Origin.Controllers
         public async Task<ActionResult<ProductoReadAdminDto>> ActualizarProducto(int id, ProductoUpdateDto productoUpdate)
         {
             var producto = await _productoService.ActualizarProducto(id, productoUpdate);
-
-            if(producto == null)
-                return NotFound("Producto no encontrado");
-
             return Ok(producto);
         }
 
@@ -57,10 +53,6 @@ namespace API_Waylan_Origin.Controllers
         public async Task<IActionResult> EliminarProducto(int id)
         {
             var produto = await _productoService.EliminarProducto(id);
-
-            if(!produto)
-                return NotFound("Producto no encontrado.");
-
             return NoContent();
         }
     }
