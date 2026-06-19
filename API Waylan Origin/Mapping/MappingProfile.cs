@@ -1,4 +1,6 @@
-﻿using API_Waylan_Origin.DTOs.CategoriaDto;
+﻿using API_Waylan_Origin.Controllers;
+using API_Waylan_Origin.DTOs.CategoriaDto;
+using API_Waylan_Origin.DTOs.ProductoDto;
 using API_Waylan_Origin.DTOs.UsuarioDto;
 using API_Waylan_Origin.Models;
 using AutoMapper;
@@ -27,6 +29,17 @@ namespace API_Waylan_Origin.Mapping
             CreateMap<Categoria, CategoriaReadAdminDto>();
             //Mapeo de CategoriaUpdateDto --> Categoria
             CreateMap<CategoriaUpdateDto, Categoria>();
+
+            //PRODUCTO//
+            CreateMap<ProductoCreateDto,  Producto>();
+            CreateMap<Producto, ProductoReadDto>()
+                .ForMember(dest => dest.CategoriaNombre, opt => opt.MapFrom(src => src.Categoria.Nombre));
+            CreateMap<Producto, ProductoReadAdminDto>()
+                .ForMember(dest => dest.CategoriaNombre, opt => opt.MapFrom(src => src.Categoria.Nombre));
+            CreateMap<ProductoUpdateDto, Producto>();
+
+
+
 
         }
     }

@@ -1,9 +1,13 @@
-﻿namespace API_Waylan_Origin.DTOs.CategoriaDto
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace API_Waylan_Origin.DTOs.CategoriaDto
 {
     public class CategoriaUpdateDto
     {
-        public string Nombre { get; set; } 
+        [Required(ErrorMessage = "El Nombre es obligatorio")]
+        public string Nombre { get; set; }
+
+        [Required(ErrorMessage = "La Descripcion es obligatoria")]
         public string? Descripcion { get; set; }
-        public bool Activo { get; set; }
     }
 }

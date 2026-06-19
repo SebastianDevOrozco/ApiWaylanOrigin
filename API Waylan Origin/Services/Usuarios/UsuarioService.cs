@@ -1,10 +1,10 @@
 ﻿using API_Waylan_Origin.Data;
 using API_Waylan_Origin.DTOs.UsuarioDto;
-using API_Waylan_Origin.Interfaces.Usuario;
+using API_Waylan_Origin.Interfaces.Usuarios;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
-namespace API_Waylan_Origin.Services
+namespace API_Waylan_Origin.Services.Usuarios
 {
     public class UsuarioService : IUsuarioService
     {

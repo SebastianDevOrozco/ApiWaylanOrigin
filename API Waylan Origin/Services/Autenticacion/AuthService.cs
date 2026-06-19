@@ -1,6 +1,6 @@
 ﻿using API_Waylan_Origin.Data;
 using API_Waylan_Origin.DTOs.UsuarioDto;
-using API_Waylan_Origin.Interfaces.Usuario;
+using API_Waylan_Origin.Interfaces.Usuarios;
 using API_Waylan_Origin.Models;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +10,7 @@ using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Text;
 
-namespace API_Waylan_Origin.Services
+namespace API_Waylan_Origin.Services.Autenticacion
 {
     public class AuthService : IAuthService
     {

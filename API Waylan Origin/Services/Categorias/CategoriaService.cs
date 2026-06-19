@@ -5,7 +5,7 @@ using API_Waylan_Origin.Models;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
-namespace API_Waylan_Origin.Services
+namespace API_Waylan_Origin.Services.Categorias
 {
     public class CategoriaService : ICategoriaService
     {

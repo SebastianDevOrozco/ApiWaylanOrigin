@@ -1,0 +1,67 @@
+﻿using API_Waylan_Origin.DTOs.ProductoDto;
+using API_Waylan_Origin.Interfaces.Producto;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+namespace API_Waylan_Origin.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    [Authorize]
+    public class ProductoController : ControllerBase
+    {
+        private readonly IProductoService _productoService;
+
+        public ProductoController(IProductoService productoService)
+        {
+            _productoService = productoService;
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "1")]
+        public async Task<ActionResult<ProductoReadAdminDto>> CrearProducto(ProductoCreateDto productoCreate)
+        {
+            var producto = await _productoService.CrearProducto(productoCreate);
+            return Ok(producto);
+        }
+
+        [HttpGet("Lista de productos Admin")]
+        [Authorize(Roles ="1")]
+        public async Task<ActionResult<IEnumerable<ProductoReadAdminDto>>> ListarProductosAdmin()
+        {
+            var productos = await _productoService.ListarProductosAdmin();
+            return Ok(productos);
+        }
+
+        [HttpGet("Lista de productos")]
+        public async Task<ActionResult<IEnumerable<ProductoReadDto>>> ListarProductos()
+        {
+            var productos = await _productoService.ListarProductos();
+            return Ok(productos);
+        }
+
+        [HttpPut]
+        [Authorize (Roles ="1")]
+        public async Task<ActionResult<ProductoReadAdminDto>> ActualizarProducto(int id, ProductoUpdateDto productoUpdate)
+        {
+            var producto = await _productoService.ActualizarProducto(id, productoUpdate);
+
+            if(producto == null)
+                return NotFound("Producto no encontrado");
+
+            return Ok(producto);
+        }
+
+        [HttpDelete]
+        [Authorize(Roles ="1")]
+        public async Task<IActionResult> EliminarProducto(int id)
+        {
+            var produto = await _productoService.EliminarProducto(id);
+
+            if(!produto)
+                return NotFound("Producto no encontrado.");
+
+            return NoContent();
+        }
+    }
+}

@@ -7,9 +7,13 @@ using Microsoft.OpenApi.Models;
 using API_Waylan_Origin.Mapping;
 using System.Text;
 using System.Text.Json.Serialization;
-using API_Waylan_Origin.Interfaces.Usuario;
-using API_Waylan_Origin.Services;
+using API_Waylan_Origin.Interfaces.Usuarios;
 using API_Waylan_Origin.Interfaces.Categoria;
+using API_Waylan_Origin.Services.Usuarios;
+using API_Waylan_Origin.Services.Categorias;
+using API_Waylan_Origin.Services.Autenticacion;
+using API_Waylan_Origin.Interfaces.Producto;
+using API_Waylan_Origin.Services.Productos;
 
 
 
@@ -61,8 +65,10 @@ builder.Services.AddAuthentication(options =>
 // --------------------------------
 
 builder.Services.AddScoped<IAuthService,AuthService>();
+//builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<ICategoriaService, CategoriaService>();
+builder.Services.AddScoped<IProductoService, ProductoService>();
 
 // --------------------------------
 // 4. Registro de AutoMapper

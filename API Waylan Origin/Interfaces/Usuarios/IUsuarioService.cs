@@ -1,6 +1,6 @@
 ﻿using API_Waylan_Origin.DTOs.UsuarioDto;
 
-namespace API_Waylan_Origin.Interfaces.Usuario
+namespace API_Waylan_Origin.Interfaces.Usuarios
 {
     public interface IUsuarioService
     {

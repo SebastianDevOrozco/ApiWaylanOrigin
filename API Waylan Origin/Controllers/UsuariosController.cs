@@ -1,5 +1,5 @@
 ﻿using API_Waylan_Origin.DTOs.UsuarioDto;
-using API_Waylan_Origin.Interfaces.Usuario;
+using API_Waylan_Origin.Interfaces.Usuarios;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
