@@ -11,5 +11,8 @@ namespace API_Waylan_Origin.Interfaces.Usuarios
         //DELETE
         Task<bool> DeleteUsuario(int usuarioId);
 
+        //PATCH
+        Task<bool> EditarEstado(int usuarioId, bool nuevoEstado);
+
     }
 }

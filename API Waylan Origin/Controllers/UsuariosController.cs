@@ -32,12 +32,8 @@ namespace API_Waylan_Origin.Controllers
         {
             //le asigno el claim a la variable usuarioId
             int usuarioId = ObtenerUsuarioIdDelToken();
-
+            Console.WriteLine($"\n\n🟢 [ALERTA] La API está recibiendo el ID: {usuarioId} desde el token\n\n");
             var infoUsuario = await _usuarioService.InfoUsuario(usuarioId);
-
-            if (infoUsuario == null)
-                NotFound("El usuario ya no se encuentra registrado.");
-
             return Ok(infoUsuario);
         }
 
@@ -46,7 +42,6 @@ namespace API_Waylan_Origin.Controllers
         public async Task<ActionResult<IEnumerable<UsuarioReadDto>>> ListaUsuarios()
         {
             var listaUsuarios = await _usuarioService.ListaUsuarios();
-
             return Ok(listaUsuarios);
         }
 
@@ -54,7 +49,15 @@ namespace API_Waylan_Origin.Controllers
         [Authorize(Roles ="1")]
         public async Task<IActionResult> DeleteUsuario(int id)
         {
-            var Resultado = await _usuarioService.DeleteUsuario(id);
+            var resultado = await _usuarioService.DeleteUsuario(id);
+            return NoContent();
+        }
+
+        [HttpPatch("{id}/cambiar-estado")]
+        [Authorize(Roles ="1")]
+        public async Task<IActionResult> CambioEstado(int id,[FromBody] bool nuevoEstado)
+        {
+            var resultado = await _usuarioService.EditarEstado(id,nuevoEstado);
             return NoContent();
         }
 
