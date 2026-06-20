@@ -79,7 +79,7 @@ namespace API_Waylan_Origin.Services.Autenticacion
                 .AnyAsync(u => u.Email.ToLower() == usuario.Email.ToLower());
 
             if (existeUsuario)
-                throw new Exception("El correo electrónico ya está registrado.");
+                throw new ArgumentException("El correo electrónico ya está registrado.");
         }
 
         private string GenerarToken(Usuario usuario)

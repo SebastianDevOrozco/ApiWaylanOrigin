@@ -40,7 +40,7 @@ namespace API_Waylan_Origin.Controllers
             return Ok(productos);
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         [Authorize (Roles ="1")]
         public async Task<ActionResult<ProductoReadAdminDto>> ActualizarProducto(int id, ProductoUpdateDto productoUpdate)
         {
@@ -48,12 +48,19 @@ namespace API_Waylan_Origin.Controllers
             return Ok(producto);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         [Authorize(Roles ="1")]
         public async Task<IActionResult> EliminarProducto(int id)
         {
             var produto = await _productoService.EliminarProducto(id);
             return NoContent();
         }
-    }
-}
+
+        [HttpPatch("{id}/cambiar-estado")]
+        [Authorize (Roles ="1")]
+        public async Task<IActionResult> CambioEstado(int id, [FromBody] bool nuevoEstado)
+        {
+            await _productoService.EditarEstadoCategoria(id, nuevoEstado);
+            return NoContent();
+        }
+}}

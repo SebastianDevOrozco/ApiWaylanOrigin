@@ -49,14 +49,13 @@ namespace API_Waylan_Origin.Services.Usuarios
             return true;
         }
 
-        public async Task<bool> EditarEstado(int usuarioId, bool nuevoEstado)
+        public async Task EditarEstadoUsuario(int usuarioId, bool nuevoEstado)
         {
             var usuario = await ValidarExistenciaUsuario(usuarioId); //lo dejamos vacio porque esta en false por defecto en el metodo
 
             usuario.Activo = nuevoEstado;
             await _appDbContext.SaveChangesAsync();
 
-            return true;
         }
 
         //METODOS SECUNDARIOS
@@ -73,7 +72,7 @@ namespace API_Waylan_Origin.Services.Usuarios
             if (incluirRol)
                 query = query.Include(u => u.Rol);
 
-            var usuario = await query.FirstOrDefaultAsync();
+            var usuario = await query.FirstOrDefaultAsync(u => u.Id == id);
 
             if (usuario == null)
                 throw new KeyNotFoundException($"El usuario con el ID {id} NO existe");

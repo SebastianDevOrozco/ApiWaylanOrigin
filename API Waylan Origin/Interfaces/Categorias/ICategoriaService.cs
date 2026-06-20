@@ -16,5 +16,8 @@ namespace API_Waylan_Origin.Interfaces.Categoria
 
         //DELETE
         Task<bool> EliminarCategoria(int idCategoria);
+
+        //PATCH
+        Task EditarEstadoCategoria(int categoriaId, bool nuevoEstado);
     }
 }

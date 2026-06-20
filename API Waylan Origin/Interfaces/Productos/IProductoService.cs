@@ -16,5 +16,8 @@ namespace API_Waylan_Origin.Interfaces.Producto
 
         //ELIMINAR
         Task<bool> EliminarProducto(int id);
+
+        //PATCH
+        Task EditarEstadoCategoria(int id, bool nuevoEstado);
     }
 }

@@ -49,11 +49,19 @@ namespace API_Waylan_Origin.Controllers
             return Ok(categoriaActualizada);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         [Authorize(Roles = "1")]
         public async Task<IActionResult> DeleteCategoria(int id)
         {
             var categoria = await _categoriaService.EliminarCategoria(id);
+            return NoContent();
+        }
+
+        [HttpPatch("{id}/cambiar-estado")]
+        [Authorize(Roles = "1")]
+        public async Task<IActionResult> CambioEstado(int id, [FromBody] bool nuevoEstado)
+        {
+            await _categoriaService.EditarEstadoCategoria(id, nuevoEstado);
             return NoContent();
         }
     }

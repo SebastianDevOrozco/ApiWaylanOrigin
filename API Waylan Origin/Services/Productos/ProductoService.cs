@@ -62,12 +62,8 @@ namespace API_Waylan_Origin.Services.Productos
 
         public async Task<ProductoReadAdminDto> ActualizarProducto(int id, ProductoUpdateDto productoUpdate)
         {
-            var producto = await _appDbContext.Productos
-                .FirstOrDefaultAsync(p => p.Id == id);
-
-            if (producto == null)
-                throw new KeyNotFoundException($"El Producto con el ID {id} No Existe");
-
+            var producto = await ValidarExistenciaProducto(id);
+           
             await ValidarCategoria(productoUpdate.IdCategoria);
 
             _mapper.Map(productoUpdate, producto);
@@ -81,18 +77,21 @@ namespace API_Waylan_Origin.Services.Productos
 
         public async Task<bool> EliminarProducto(int id)
         {
-            var producto = await _appDbContext.Productos
-               .FirstOrDefaultAsync(p => p.Id == id);
-
-
-            if (producto == null)
-                throw new KeyNotFoundException($"El Producto con el ID {id} No Existe");
+            var producto = await ValidarExistenciaProducto(id);
 
             producto.Activo = false;
             await _appDbContext.SaveChangesAsync();
 
             return true;
 
+        }
+
+        public async Task EditarEstadoCategoria(int id, bool nuevoEstado)
+        {
+            var producto = await ValidarExistenciaProducto(id);
+
+            producto.Activo = nuevoEstado;
+            await _appDbContext.SaveChangesAsync();
         }
 
 
@@ -105,6 +104,17 @@ namespace API_Waylan_Origin.Services.Productos
             if (!existeCategoria)
                 throw new KeyNotFoundException($"La categoria con el ID {id} NO existe");
 
+        }
+
+        private async Task<Producto> ValidarExistenciaProducto(int id)
+        {
+            var producto = await _appDbContext.Productos
+               .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (producto == null)
+                throw new KeyNotFoundException($"El Producto con el ID {id} No Existe");
+
+            return producto;
         }
     }
 }

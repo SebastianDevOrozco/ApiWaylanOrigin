@@ -55,12 +55,7 @@ namespace API_Waylan_Origin.Services.Categorias
 
         public async Task<CategoriaReadAdminDto> ActualizarCategoria(int categoriaId, CategoriaUpdateDto categoriaUpdateDto)
         {
-            //valido si la categoria existe
-            var categoria = await _appDbContext.categorias
-                .FirstOrDefaultAsync(c => c.Id == categoriaId);
-
-            if (categoria == null)
-                throw new KeyNotFoundException($"La Categoria con el ID {categoriaId} No Existe");
+            var categoria = await ValidarExistenciaCategoria(categoriaId);
 
             _mapper.Map(categoriaUpdateDto, categoria);
 
@@ -71,17 +66,34 @@ namespace API_Waylan_Origin.Services.Categorias
 
         public async Task<bool> EliminarCategoria(int idCategoria)
         {
-            var categoria = await _appDbContext.categorias
-                .FirstOrDefaultAsync(c => c.Id == idCategoria);
-
-            if (categoria == null)
-                throw new KeyNotFoundException($"La Categoria con el ID {idCategoria} No Existe");
+           var categoria = await ValidarExistenciaCategoria(idCategoria);
 
             categoria.Activo = false;
 
             await _appDbContext.SaveChangesAsync();
 
             return true;
+        }
+
+        public async Task EditarEstadoCategoria(int categoriaId, bool nuevoEstado)
+        {
+            var categoria = await ValidarExistenciaCategoria(categoriaId);
+
+            categoria.Activo = nuevoEstado;
+            await _appDbContext.SaveChangesAsync();
+        }
+
+
+        //METODOS SECUNDARIOS
+        private async Task<Categoria> ValidarExistenciaCategoria(int idCategoria)
+        {
+            var categoria = await _appDbContext.categorias
+               .FirstOrDefaultAsync(c => c.Id == idCategoria);
+
+            if (categoria == null)
+                throw new KeyNotFoundException($"La Categoria con el ID {idCategoria} No Existe");
+
+            return categoria;
         }
     }
 }

@@ -32,7 +32,6 @@ namespace API_Waylan_Origin.Controllers
         {
             //le asigno el claim a la variable usuarioId
             int usuarioId = ObtenerUsuarioIdDelToken();
-            Console.WriteLine($"\n\n🟢 [ALERTA] La API está recibiendo el ID: {usuarioId} desde el token\n\n");
             var infoUsuario = await _usuarioService.InfoUsuario(usuarioId);
             return Ok(infoUsuario);
         }
@@ -57,7 +56,7 @@ namespace API_Waylan_Origin.Controllers
         [Authorize(Roles ="1")]
         public async Task<IActionResult> CambioEstado(int id,[FromBody] bool nuevoEstado)
         {
-            var resultado = await _usuarioService.EditarEstado(id,nuevoEstado);
+            await _usuarioService.EditarEstadoUsuario(id,nuevoEstado);
             return NoContent();
         }
 
