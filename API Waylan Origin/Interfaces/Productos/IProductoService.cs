@@ -15,7 +15,7 @@ namespace API_Waylan_Origin.Interfaces.Producto
         Task<ProductoReadAdminDto> ActualizarProducto(int id, ProductoUpdateDto productoUpdate);
 
         //ELIMINAR
-        Task<bool> EliminarProducto(int id);
+        Task EliminarProducto(int id);
 
         //PATCH
         Task EditarEstadoCategoria(int id, bool nuevoEstado);

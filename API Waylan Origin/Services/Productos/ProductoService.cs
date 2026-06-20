@@ -75,15 +75,12 @@ namespace API_Waylan_Origin.Services.Productos
             return _mapper.Map<ProductoReadAdminDto>(producto);
         }
 
-        public async Task<bool> EliminarProducto(int id)
+        public async Task EliminarProducto(int id)
         {
             var producto = await ValidarExistenciaProducto(id);
 
             producto.Activo = false;
             await _appDbContext.SaveChangesAsync();
-
-            return true;
-
         }
 
         public async Task EditarEstadoCategoria(int id, bool nuevoEstado)

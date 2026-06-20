@@ -15,7 +15,7 @@ namespace API_Waylan_Origin.Interfaces.Categoria
         Task<CategoriaReadAdminDto> ActualizarCategoria (int categoriaId, CategoriaUpdateDto categoriaUpdateDto);
 
         //DELETE
-        Task<bool> EliminarCategoria(int idCategoria);
+        Task EliminarCategoria(int idCategoria);
 
         //PATCH
         Task EditarEstadoCategoria(int categoriaId, bool nuevoEstado);

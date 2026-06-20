@@ -48,7 +48,7 @@ namespace API_Waylan_Origin.Controllers
         [Authorize(Roles ="1")]
         public async Task<IActionResult> DeleteUsuario(int id)
         {
-            var resultado = await _usuarioService.DeleteUsuario(id);
+            await _usuarioService.DeleteUsuario(id);
             return NoContent();
         }
 

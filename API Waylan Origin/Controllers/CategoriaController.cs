@@ -53,7 +53,7 @@ namespace API_Waylan_Origin.Controllers
         [Authorize(Roles = "1")]
         public async Task<IActionResult> DeleteCategoria(int id)
         {
-            var categoria = await _categoriaService.EliminarCategoria(id);
+            await _categoriaService.EliminarCategoria(id);
             return NoContent();
         }
 

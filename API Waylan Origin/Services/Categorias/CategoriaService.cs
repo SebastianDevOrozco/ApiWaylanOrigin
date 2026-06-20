@@ -64,7 +64,7 @@ namespace API_Waylan_Origin.Services.Categorias
             return _mapper.Map<CategoriaReadAdminDto>(categoria);
         }
 
-        public async Task<bool> EliminarCategoria(int idCategoria)
+        public async Task EliminarCategoria(int idCategoria)
         {
            var categoria = await ValidarExistenciaCategoria(idCategoria);
 
@@ -72,7 +72,6 @@ namespace API_Waylan_Origin.Services.Categorias
 
             await _appDbContext.SaveChangesAsync();
 
-            return true;
         }
 
         public async Task EditarEstadoCategoria(int categoriaId, bool nuevoEstado)

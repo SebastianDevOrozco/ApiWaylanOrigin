@@ -9,7 +9,7 @@ namespace API_Waylan_Origin.Interfaces.Usuarios
         Task<IEnumerable<UsuarioReadDto>> ListaUsuarios();
 
         //DELETE
-        Task<bool> DeleteUsuario(int usuarioId);
+        Task DeleteUsuario(int usuarioId);
 
         //PATCH
         Task EditarEstadoUsuario(int usuarioId, bool nuevoEstado);

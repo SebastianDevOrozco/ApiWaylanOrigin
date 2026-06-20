@@ -52,7 +52,7 @@ namespace API_Waylan_Origin.Controllers
         [Authorize(Roles ="1")]
         public async Task<IActionResult> EliminarProducto(int id)
         {
-            var produto = await _productoService.EliminarProducto(id);
+            await _productoService.EliminarProducto(id);
             return NoContent();
         }
 

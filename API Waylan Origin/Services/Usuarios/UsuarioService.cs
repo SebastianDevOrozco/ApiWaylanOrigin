@@ -37,7 +37,7 @@ namespace API_Waylan_Origin.Services.Usuarios
             return _mapper.Map<IEnumerable<UsuarioReadDto>>(usuarios);
         }
 
-        public async Task<bool> DeleteUsuario(int usuarioId)
+        public async Task DeleteUsuario(int usuarioId)
         {
             var usuario = await ValidarExistenciaUsuario(usuarioId); //lo dejamos vacio porque esta en false por defecto en el metodo
 
@@ -45,8 +45,6 @@ namespace API_Waylan_Origin.Services.Usuarios
             usuario.Activo = false;
 
             await _appDbContext.SaveChangesAsync();
-
-            return true;
         }
 
         public async Task EditarEstadoUsuario(int usuarioId, bool nuevoEstado)
