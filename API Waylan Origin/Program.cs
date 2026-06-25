@@ -132,6 +132,9 @@ app.UseMiddleware<API_Waylan_Origin.Middleware.ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 
+//permisos para habilitar los archivos estaticos
+app.UseStaticFiles();
+
 app.UseAuthentication();
 
 app.UseAuthorization();

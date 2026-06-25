@@ -21,10 +21,7 @@ namespace API_Waylan_Origin.DTOs.ProductoDto
         [Required(ErrorMessage = "El stock es obligatorio")]
         [Range(0, 1000000)]
         public int Stock { get; set; }
-
-        [Required(ErrorMessage = "La imagen es obligatoria")]
-        [Url(ErrorMessage = "La URL no tiene un formato válido")]
-        public string ImagenUrl { get; set; }
+        public IFormFile? Imagen { get; set; }
 
     }
 }

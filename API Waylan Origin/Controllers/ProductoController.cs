@@ -19,7 +19,7 @@ namespace API_Waylan_Origin.Controllers
 
         [HttpPost]
         [Authorize(Roles = "1")]
-        public async Task<ActionResult<ProductoReadAdminDto>> CrearProducto(ProductoCreateDto productoCreate)
+        public async Task<ActionResult<ProductoReadAdminDto>> CrearProducto([FromForm] ProductoCreateDto productoCreate)
         {
             var producto = await _productoService.CrearProducto(productoCreate);
             return Ok(producto);
@@ -42,7 +42,7 @@ namespace API_Waylan_Origin.Controllers
 
         [HttpPut("{id}")]
         [Authorize (Roles ="1")]
-        public async Task<ActionResult<ProductoReadAdminDto>> ActualizarProducto(int id, ProductoUpdateDto productoUpdate)
+        public async Task<ActionResult<ProductoReadAdminDto>> ActualizarProducto(int id, [FromForm] ProductoUpdateDto productoUpdate)
         {
             var producto = await _productoService.ActualizarProducto(id, productoUpdate);
             return Ok(producto);
@@ -60,7 +60,7 @@ namespace API_Waylan_Origin.Controllers
         [Authorize (Roles ="1")]
         public async Task<IActionResult> CambioEstado(int id, [FromBody] bool nuevoEstado)
         {
-            await _productoService.EditarEstadoCategoria(id, nuevoEstado);
+            await _productoService.EditarEstadoProducto(id, nuevoEstado);
             return NoContent();
         }
 }}

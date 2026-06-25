@@ -11,11 +11,13 @@ namespace API_Waylan_Origin.Services.Productos
     {
         private readonly IMapper _mapper;
         private readonly AppDbContext _appDbContext;
+        private readonly IWebHostEnvironment _env;
 
-        public ProductoService(IMapper mapper, AppDbContext appDbContext)
+        public ProductoService(IMapper mapper, AppDbContext appDbContext, IWebHostEnvironment env)
         {
             _mapper = mapper;
             _appDbContext = appDbContext;
+            _env = env;
         }
 
         public async Task<ProductoReadAdminDto> CrearProducto(ProductoCreateDto productoCreate)
@@ -25,6 +27,32 @@ namespace API_Waylan_Origin.Services.Productos
             var productoNuevo = _mapper.Map<Producto>(productoCreate);
 
             productoNuevo.Activo = true;
+
+            if (productoCreate.Imagen != null && productoCreate.Imagen.Length > 0)
+            {
+                // A. Creamos un nombre único para el archivo (Ej: 9b1deb4d-3b7d.jpg)
+                // Esto evita que si dos fotos se llaman "cafe.jpg" se borren entre sí.
+                string nombreUnico = Guid.NewGuid().ToString() + Path.GetExtension(productoCreate.Imagen.FileName);
+
+                // B. Buscamos la ruta física de la carpeta: wwwroot/imagenes/nombreUnico.jpg
+                string rutaCarpeta = Path.Combine(_env.WebRootPath, "imagenes");
+                string rutaCompletaArchivo = Path.Combine(rutaCarpeta, nombreUnico);
+
+                // C. Guardamos físicamente el archivo en el disco duro de la PC
+                using (var stream = new FileStream(rutaCompletaArchivo, FileMode.Create))
+                {
+                    await productoCreate.Imagen.CopyToAsync(stream);
+                }
+
+                // D. Guardamos la URL relativa en la propiedad del Producto
+                // Guardar "/imagenes/foto.jpg" es la mejor práctica porque funcionará en local y en la nube.
+                productoNuevo.ImagenUrl = $"/imagenes/{nombreUnico}";
+            }
+            else
+            {
+                // Si no subió foto, le puedes poner una imagen por defecto o dejarla nula
+                productoNuevo.ImagenUrl = "/imagenes/default-producto.png";
+            }
 
             _appDbContext.Productos.Add(productoNuevo);
             await _appDbContext.SaveChangesAsync();
@@ -63,10 +91,51 @@ namespace API_Waylan_Origin.Services.Productos
         public async Task<ProductoReadAdminDto> ActualizarProducto(int id, ProductoUpdateDto productoUpdate)
         {
             var producto = await ValidarExistenciaProducto(id);
-           
             await ValidarCategoria(productoUpdate.IdCategoria);
 
+            string? rutaFotoVieja = producto.ImagenUrl;
+
+            //mapeo los datos de texto
             _mapper.Map(productoUpdate, producto);
+
+            // 3. ¿El administrador subió una NUEVA imagen en los cambios?
+            if (productoUpdate.Imagen != null && productoUpdate.Imagen.Length > 0)
+            {
+                // A. Creamos el nuevo nombre único para la nueva foto
+                string nombreUnico = Guid.NewGuid().ToString() + Path.GetExtension(productoUpdate.Imagen.FileName);
+                string rutaCarpeta = Path.Combine(_env.WebRootPath, "imagenes");
+                string rutaCompletaArchivo = Path.Combine(rutaCarpeta, nombreUnico);
+
+                // B. Guardamos la nueva foto físicamente en el disco
+                using (var stream = new FileStream(rutaCompletaArchivo, FileMode.Create))
+                {
+                    await productoUpdate.Imagen.CopyToAsync(stream);
+                }
+
+                // C. Le asignamos la nueva URL al producto
+                producto.ImagenUrl = $"/imagenes/{nombreUnico}";
+
+                // 🔥 MOVIMIENTO SENIOR: Borramos la foto anterior del disco duro para no acumular basura
+                // (Validamos que no sea la imagen por defecto)
+                if (!string.IsNullOrEmpty(rutaFotoVieja) && rutaFotoVieja != "/imagenes/default-producto.png")
+                {
+                    // Convertimos la URL relativa (/imagenes/foto.jpg) en una ruta física real de Windows/Linux
+                    string rutaFisicaFotoVieja = Path.Combine(_env.WebRootPath, rutaFotoVieja.TrimStart('/'));
+
+                    if (File.Exists(rutaFisicaFotoVieja))
+                    {
+                        File.Delete(rutaFisicaFotoVieja); // 🗑️ Borrado físico del disco
+                    }
+                }
+            }
+            else
+            {
+                // ⚠️ MUY IMPORTANTE: Si el admin no subió ninguna foto en el update, 
+                // mantenemos la foto que ya tenía el producto originalmente.
+                producto.ImagenUrl = rutaFotoVieja;
+            }
+
+
             await _appDbContext.SaveChangesAsync();
 
             //esta linea permite mapear el producto con el nombre de la categoria
@@ -83,7 +152,7 @@ namespace API_Waylan_Origin.Services.Productos
             await _appDbContext.SaveChangesAsync();
         }
 
-        public async Task EditarEstadoCategoria(int id, bool nuevoEstado)
+        public async Task EditarEstadoProducto(int id, bool nuevoEstado)
         {
             var producto = await ValidarExistenciaProducto(id);
 
