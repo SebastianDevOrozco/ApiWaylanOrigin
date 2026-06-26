@@ -30,7 +30,7 @@ namespace API_Waylan_Origin.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<PedidoReadDto>> CrearPedido([FromBody] PedidoCreateDto pedidoCreate)
+        public async Task<ActionResult<PedidoReadDto>> CrearPedido(PedidoCreateDto pedidoCreate)
         {
             //le asigno el claim a la variable usuarioId
             int usuarioId = ObtenerUsuarioIdDelToken();

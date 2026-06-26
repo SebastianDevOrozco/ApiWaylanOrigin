@@ -59,7 +59,7 @@ namespace API_Waylan_Origin.Controllers
 
         [HttpPatch("{id}/cambiar-estado")]
         [Authorize(Roles = "1")]
-        public async Task<IActionResult> CambioEstado(int id, [FromBody] bool nuevoEstado)
+        public async Task<IActionResult> CambioEstado(int id, bool nuevoEstado)
         {
             await _categoriaService.EditarEstadoCategoria(id, nuevoEstado);
             return NoContent();
