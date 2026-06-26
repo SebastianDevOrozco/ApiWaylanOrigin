@@ -31,7 +31,6 @@ namespace API_Waylan_Origin.Services.Productos
             if (productoCreate.Imagen != null && productoCreate.Imagen.Length > 0)
             {
                 // A. Creamos un nombre único para el archivo (Ej: 9b1deb4d-3b7d.jpg)
-                // Esto evita que si dos fotos se llaman "cafe.jpg" se borren entre sí.
                 string nombreUnico = Guid.NewGuid().ToString() + Path.GetExtension(productoCreate.Imagen.FileName);
 
                 // B. Buscamos la ruta física de la carpeta: wwwroot/imagenes/nombreUnico.jpg
@@ -50,7 +49,7 @@ namespace API_Waylan_Origin.Services.Productos
             }
             else
             {
-                // Si no subió foto, le puedes poner una imagen por defecto o dejarla nula
+                // Si no subió foto, se pone una imagen por defecto o se deja nula
                 productoNuevo.ImagenUrl = "/imagenes/default-producto.png";
             }
 
@@ -182,5 +181,7 @@ namespace API_Waylan_Origin.Services.Productos
 
             return producto;
         }
+
+        
     }
 }

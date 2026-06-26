@@ -9,7 +9,7 @@
         public DateTime FechaPedido { get; set; } = DateTime.Now;
 
         //Relaciones
-        public Usuario Usuario { get; set; } 
-        public ICollection<DetallePedido> DetallesPedido { get; set; }
+        public Usuario Usuario { get; set; }
+        public ICollection<DetallePedido> DetallesPedido { get; set; } = new HashSet<DetallePedido>();
     }
 }

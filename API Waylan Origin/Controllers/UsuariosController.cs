@@ -24,6 +24,9 @@ namespace API_Waylan_Origin.Controllers
         private int ObtenerUsuarioIdDelToken()
         {
             var claim = User.FindFirst(ClaimTypes.NameIdentifier);
+            // un error claro en caso de que el token venga corrupto
+            if (claim == null)
+                throw new UnauthorizedAccessException("Token inválido o sin identificador.");
             return int.Parse(claim.Value);
         }
 

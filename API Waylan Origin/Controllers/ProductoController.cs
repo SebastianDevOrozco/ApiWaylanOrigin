@@ -26,7 +26,7 @@ namespace API_Waylan_Origin.Controllers
         }
 
         [HttpGet("Lista de productos Admin")]
-        [Authorize(Roles ="1")]
+        [Authorize(Roles = "1")]
         public async Task<ActionResult<IEnumerable<ProductoReadAdminDto>>> ListarProductosAdmin()
         {
             var productos = await _productoService.ListarProductosAdmin();
@@ -41,7 +41,7 @@ namespace API_Waylan_Origin.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize (Roles ="1")]
+        [Authorize(Roles = "1")]
         public async Task<ActionResult<ProductoReadAdminDto>> ActualizarProducto(int id, [FromForm] ProductoUpdateDto productoUpdate)
         {
             var producto = await _productoService.ActualizarProducto(id, productoUpdate);
@@ -49,7 +49,7 @@ namespace API_Waylan_Origin.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles ="1")]
+        [Authorize(Roles = "1")]
         public async Task<IActionResult> EliminarProducto(int id)
         {
             await _productoService.EliminarProducto(id);
@@ -57,10 +57,11 @@ namespace API_Waylan_Origin.Controllers
         }
 
         [HttpPatch("{id}/cambiar-estado")]
-        [Authorize (Roles ="1")]
+        [Authorize(Roles = "1")]
         public async Task<IActionResult> CambioEstado(int id, [FromBody] bool nuevoEstado)
         {
             await _productoService.EditarEstadoProducto(id, nuevoEstado);
             return NoContent();
         }
-}}
+    }
+}
