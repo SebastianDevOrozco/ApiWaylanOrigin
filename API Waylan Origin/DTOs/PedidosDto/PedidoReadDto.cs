@@ -2,12 +2,12 @@
 {
     public class PedidoReadDto
     {
-        public int Id { get; set; }
+        public string CodigoSeguimiento { get; set; } = string.Empty;
         public decimal Total { get; set; }
-        public string EstadoPedido { get; set; }
-        public DateTime FechaPedido { get; set; } = DateTime.Now;
+        public string EstadoPedido { get; set; } = string.Empty;
+        public DateTime FechaPedido { get; set; } 
 
-        public ICollection<DetallePedidoReadDto> Detalles { get; set;}
+        public ICollection<DetallePedidoReadDto> Detalles { get; set;} = new List<DetallePedidoReadDto>();
     }
 }
 

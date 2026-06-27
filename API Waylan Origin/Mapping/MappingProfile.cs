@@ -44,6 +44,10 @@ namespace API_Waylan_Origin.Mapping
                .ForMember(dest => dest.DetallesPedido, opt => opt.MapFrom(src => src.Detalles));
             CreateMap<Pedido, PedidoReadDto>()
                 .ForMember(dest => dest.Detalles, opt => opt.MapFrom(src => src.DetallesPedido));
+            CreateMap<Pedido, PedidoReadAdminDto>()
+                .ForMember(dest => dest.DetallesAdmin, opt => opt.MapFrom(src => src.DetallesPedido))
+                .ForMember(dest => dest.NombreUsuario, opt => opt.MapFrom(src => src.Usuario.Nombre))
+                .ForMember(dest => dest.EmailUsuario, opt => opt.MapFrom(src => src.Usuario.Email));
 
             CreateMap<DetallePedidoCreateDto, DetallePedido>();
             CreateMap<DetallePedido, DetallePedidoReadDto>()

@@ -4,6 +4,7 @@ using API_Waylan_Origin.Interfaces.Pedidos;
 using API_Waylan_Origin.Models;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
 
 namespace API_Waylan_Origin.Services.Pedidos
 {
@@ -24,6 +25,7 @@ namespace API_Waylan_Origin.Services.Pedidos
             {
                 EstadoPedido = "Pendiente",
                 IdUsuario = usuarioId,
+                CodigoSeguimiento = RandomNumberGenerator.GetHexString(6).ToUpper()
             };
 
             decimal TotalCompra = 0;
@@ -63,6 +65,48 @@ namespace API_Waylan_Origin.Services.Pedidos
             return _mapper.Map<PedidoReadDto>(nuevoPedido);
         }
 
+        public async Task<IEnumerable<PedidoReadDto>> ListarPedidos(int usuarioId)
+        {
+            var pedidos = await _appDbContext.pedidos
+                .Include(p => p.DetallesPedido)
+                    .ThenInclude(d  => d.Producto)
+                .Where(p => p.IdUsuario == usuarioId)
+                .ToListAsync();
+
+            if(pedidos == null)
+                return new List<PedidoReadDto>();
+
+            return _mapper.Map<IEnumerable<PedidoReadDto>>(pedidos);
+        }
+
+        public async Task<IEnumerable<PedidoReadAdminDto>> ListarTodosLosPedidos()
+        {
+            var pedidos = await _appDbContext.pedidos
+                .Include(p => p.Usuario)
+                .Include(p => p.DetallesPedido)
+                    .ThenInclude(d => d.Producto)
+                .ToListAsync();
+
+            if (pedidos == null)
+                return new List<PedidoReadAdminDto>();
+
+            return _mapper.Map<IEnumerable<PedidoReadAdminDto>>(pedidos);
+        }
+
+        public async Task<PedidoReadAdminDto> PedidoCodigo(string codigo)
+        {
+            var pedido = await _appDbContext.pedidos
+               .Include(p => p.Usuario)
+               .Include(p => p.DetallesPedido)
+                   .ThenInclude(d => d.Producto)
+                .FirstOrDefaultAsync(p => p.CodigoSeguimiento == codigo);
+
+            if (pedido == null)
+                throw new KeyNotFoundException($"El pedido con el codigo {codigo} no existe");
+
+            return _mapper.Map<PedidoReadAdminDto>(pedido);
+        }
+
 
         //Metodos secundarios
         private async Task<Producto> ValidacionProducto(int id, int cantidad)
@@ -79,4 +123,7 @@ namespace API_Waylan_Origin.Services.Pedidos
             return producto;
 
         }
-}}
+
+       
+    }
+}

@@ -38,6 +38,31 @@ namespace API_Waylan_Origin.Controllers
             var nuevoPedido = await _pedidoService.CrearPedido(usuarioId, pedidoCreate);
             return Ok(nuevoPedido);
         }
+
+        [HttpGet("Lista pedidos usuario")]
+        public async Task<ActionResult<IEnumerable<PedidoReadDto>>> ListarPedidos()
+        {
+            int usuarioId = ObtenerUsuarioIdDelToken();
+
+            var listaPedidos = await _pedidoService.ListarPedidos(usuarioId);
+            return Ok(listaPedidos);
+        }
+
+        [HttpGet("Lista pedidos Admin")]
+        [Authorize(Roles = "1")]
+        public async Task<ActionResult<IEnumerable<PedidoReadAdminDto>>> ListaTodosLosPedidos()
+        {
+            var listaPedidos = await _pedidoService.ListarTodosLosPedidos();
+            return Ok(listaPedidos);
+        }
+
+        [HttpGet("{codigo}")]
+        [Authorize(Roles = "1")]
+        public async Task<ActionResult<PedidoReadAdminDto>> PedidoCodigo(string codigo)
+        {
+            var pedido = await _pedidoService.PedidoCodigo(codigo);
+            return Ok(pedido);
+        }
       
     }
 }
