@@ -36,4 +36,4 @@
 | **GET** | `/api/pedidos/mis-pedidos` | Muestra el historial de compras del usuario logueado. | Cliente |
 | **GET** | `/api/pedidos` | Lista **todos** los pedidos de la tienda. | Solo Admin |
 | **GET** | `/api/pedidos/{codigo}` | Trae el detalle exacto de una factura (ítems, precios). | Admin |
-| **PUT** | `/api/pedidos/{id}/estado` | Cambia el estado (ej: de "Pendiente" a "Enviado"). | Solo Admin |
+| **PUT** | `/api/pedidos/{codigo}/estado` | Cambia el estado (ej: de "Pendiente" a "Enviado"). | Solo Admin |

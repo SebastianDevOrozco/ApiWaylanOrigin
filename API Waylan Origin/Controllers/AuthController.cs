@@ -39,9 +39,6 @@ namespace API_Waylan_Origin.Controllers
         {
             var token = await _authService.Login(LoginDto.Email, LoginDto.Password);
 
-            if (token == null)
-                return Unauthorized("Correo o Contraseña incorrecta");
-
             return Ok(new { token });
         }
 

@@ -4,6 +4,7 @@ using API_Waylan_Origin.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_Waylan_Origin.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260630160126_EnumPedidos")]
+    partial class EnumPedidos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,23 +75,6 @@ namespace API_Waylan_Origin.Migrations
                     b.HasIndex("IdProducto");
 
                     b.ToTable("DetallesPedido");
-                });
-
-            modelBuilder.Entity("API_Waylan_Origin.Models.Nota", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("id"));
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("id");
-
-                    b.ToTable("Notas");
                 });
 
             modelBuilder.Entity("API_Waylan_Origin.Models.Pedido", b =>
@@ -154,14 +140,6 @@ namespace API_Waylan_Origin.Migrations
                     b.Property<int>("Stock")
                         .HasColumnType("int");
 
-                    b.Property<string>("proceso")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("tueste")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.HasKey("Id");
 
                     b.HasIndex("IdCategoria");
@@ -222,21 +200,6 @@ namespace API_Waylan_Origin.Migrations
                     b.ToTable("Usuarios");
                 });
 
-            modelBuilder.Entity("NotaProducto", b =>
-                {
-                    b.Property<int>("Notasid")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductosId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Notasid", "ProductosId");
-
-                    b.HasIndex("ProductosId");
-
-                    b.ToTable("ProductoNotas", (string)null);
-                });
-
             modelBuilder.Entity("API_Waylan_Origin.Models.DetallePedido", b =>
                 {
                     b.HasOne("API_Waylan_Origin.Models.Pedido", "Pedido")
@@ -287,21 +250,6 @@ namespace API_Waylan_Origin.Migrations
                         .IsRequired();
 
                     b.Navigation("Rol");
-                });
-
-            modelBuilder.Entity("NotaProducto", b =>
-                {
-                    b.HasOne("API_Waylan_Origin.Models.Nota", null)
-                        .WithMany()
-                        .HasForeignKey("Notasid")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("API_Waylan_Origin.Models.Producto", null)
-                        .WithMany()
-                        .HasForeignKey("ProductosId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("API_Waylan_Origin.Models.Categoria", b =>

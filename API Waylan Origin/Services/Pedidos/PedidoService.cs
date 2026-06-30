@@ -1,5 +1,6 @@
 ﻿using API_Waylan_Origin.Data;
 using API_Waylan_Origin.DTOs.PedidosDto;
+using API_Waylan_Origin.Enums;
 using API_Waylan_Origin.Interfaces.Pedidos;
 using API_Waylan_Origin.Models;
 using AutoMapper;
@@ -23,7 +24,7 @@ namespace API_Waylan_Origin.Services.Pedidos
         {
             var nuevoPedido = new Pedido
             {
-                EstadoPedido = "Pendiente",
+                Estado = EstadoPedido.Pendiente,
                 IdUsuario = usuarioId,
                 CodigoSeguimiento = RandomNumberGenerator.GetHexString(6).ToUpper()
             };
@@ -107,6 +108,18 @@ namespace API_Waylan_Origin.Services.Pedidos
             return _mapper.Map<PedidoReadAdminDto>(pedido);
         }
 
+        public async Task CambiarEstadoPedido(string codigo, EstadoPedido NuevoEstado)
+        {
+            var pedido = await _appDbContext.pedidos
+                .FirstOrDefaultAsync(p => p.CodigoSeguimiento == codigo);
+
+            if (pedido == null)
+                throw new KeyNotFoundException($"El pedido con el codigo {codigo} No existe");
+
+            pedido.Estado = NuevoEstado;
+
+            await _appDbContext.SaveChangesAsync();
+        }
 
         //Metodos secundarios
         private async Task<Producto> ValidacionProducto(int id, int cantidad)

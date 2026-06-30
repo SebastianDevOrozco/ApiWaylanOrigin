@@ -1,4 +1,5 @@
 ﻿using API_Waylan_Origin.DTOs.PedidosDto;
+using API_Waylan_Origin.Enums;
 using API_Waylan_Origin.Interfaces.Pedidos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -62,6 +63,14 @@ namespace API_Waylan_Origin.Controllers
         {
             var pedido = await _pedidoService.PedidoCodigo(codigo);
             return Ok(pedido);
+        }
+
+        [HttpPatch("{codigo}/cambiar-estado")]
+        [Authorize(Roles = "1")]
+        public async Task<IActionResult> CambiarEstado(string codigo, EstadoPedido nuevoEstado)
+        {
+            await _pedidoService.CambiarEstadoPedido(codigo, nuevoEstado);
+            return NoContent();
         }
       
     }

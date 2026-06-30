@@ -4,6 +4,7 @@ using API_Waylan_Origin.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_Waylan_Origin.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260630211526_RelacionProductoNotasMuchosaMuchos")]
+    partial class RelacionProductoNotasMuchosaMuchos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -88,7 +91,7 @@ namespace API_Waylan_Origin.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("Notas");
+                    b.ToTable("Nota");
                 });
 
             modelBuilder.Entity("API_Waylan_Origin.Models.Pedido", b =>

@@ -70,6 +70,8 @@ namespace API_Waylan_Origin.Services.Categorias
 
             categoria.Activo = false;
 
+            await DesactivarProductosCascada(categoria);
+
             await _appDbContext.SaveChangesAsync();
 
         }
@@ -79,6 +81,14 @@ namespace API_Waylan_Origin.Services.Categorias
             var categoria = await ValidarExistenciaCategoria(categoriaId);
 
             categoria.Activo = nuevoEstado;
+
+            if(!nuevoEstado)
+                await DesactivarProductosCascada(categoria);
+            
+            if(nuevoEstado)
+                await ActivarProductosCascada(categoria);
+            
+
             await _appDbContext.SaveChangesAsync();
         }
 
@@ -87,12 +97,29 @@ namespace API_Waylan_Origin.Services.Categorias
         private async Task<Categoria> ValidarExistenciaCategoria(int idCategoria)
         {
             var categoria = await _appDbContext.categorias
+                .Include(c => c.Productos)
                .FirstOrDefaultAsync(c => c.Id == idCategoria);
 
             if (categoria == null)
                 throw new KeyNotFoundException($"La Categoria con el ID {idCategoria} No Existe");
 
             return categoria;
+        }
+
+        private async Task DesactivarProductosCascada(Categoria categoria)
+        {
+            foreach (var producto in categoria.Productos)
+            {
+                producto.Activo = false;
+            }
+        }
+
+        private async Task ActivarProductosCascada(Categoria categoria)
+        {
+            foreach (var producto in categoria.Productos)
+            {
+                producto.Activo = true;
+            }
         }
     }
 }

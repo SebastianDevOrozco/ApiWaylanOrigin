@@ -60,9 +60,13 @@ namespace API_Waylan_Origin.Services.Autenticacion
             var usuario = await _appDbContext.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
 
             // 2. Si no existe, o la contraseña NO coincide (BCrypt.Verify desencripta y compara)
-            if (usuario == null || !usuario.Activo ||!BCrypt.Net.BCrypt.Verify(password, usuario.Password))
+            if (usuario == null ||!BCrypt.Net.BCrypt.Verify(password, usuario.Password))
             {
-                return null; // Credenciales inválidas
+                throw new UnauthorizedAccessException("Correo o Contraseña incorrecta.");// Credenciales inválidas
+            }
+            if (!usuario.Activo)
+            {
+                throw new InvalidOperationException("Tu cuenta ha sido desactivada por un administrador.");
             }
 
             return GenerarToken(usuario);

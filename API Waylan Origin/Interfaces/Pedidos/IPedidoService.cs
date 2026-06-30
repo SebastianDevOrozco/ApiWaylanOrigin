@@ -1,4 +1,5 @@
 ﻿using API_Waylan_Origin.DTOs.PedidosDto;
+using API_Waylan_Origin.Enums;
 
 namespace API_Waylan_Origin.Interfaces.Pedidos
 {
@@ -9,5 +10,6 @@ namespace API_Waylan_Origin.Interfaces.Pedidos
 
         Task<IEnumerable<PedidoReadAdminDto>> ListarTodosLosPedidos(); 
         Task<PedidoReadAdminDto> PedidoCodigo(string codigo);
+        Task CambiarEstadoPedido(string codigo, EstadoPedido NuevoEstado);
     }
 }

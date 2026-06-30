@@ -1,4 +1,6 @@
-﻿namespace API_Waylan_Origin.Models
+﻿using API_Waylan_Origin.Enums;
+
+namespace API_Waylan_Origin.Models
 {
     public class Pedido
     {
@@ -6,7 +8,7 @@
         public string CodigoSeguimiento { get; set; } = string.Empty;
         public int IdUsuario { get; set; }
         public decimal Total { get; set; }
-        public string EstadoPedido { get; set; } = string.Empty;
+        public EstadoPedido Estado { get; set; } 
         public DateTime FechaPedido { get; set; } = DateTime.Now;
 
         //Relaciones

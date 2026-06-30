@@ -38,6 +38,7 @@ namespace API_Waylan_Origin.Mapping
             CreateMap<Producto, ProductoReadAdminDto>()
                 .ForMember(dest => dest.CategoriaNombre, opt => opt.MapFrom(src => src.Categoria.Nombre));
             CreateMap<ProductoUpdateDto, Producto>();
+            CreateMap<Nota, NotaReadDto>();
 
             //PEDIDOS//
             CreateMap<PedidoCreateDto, Pedido>()

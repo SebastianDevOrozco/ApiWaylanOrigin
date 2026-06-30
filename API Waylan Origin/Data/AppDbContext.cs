@@ -14,11 +14,27 @@ namespace API_Waylan_Origin.Data
         public DbSet<DetallePedido> DetallesPedido { get; set; }
         public DbSet<Producto> Productos { get; set; }
         public DbSet<Categoria> categorias { get; set; }
+        public DbSet<Nota> Notas {  get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            //Modificacion para que los atributos ENUMS los guarde en tipo string y no en int
+            modelBuilder.Entity<Pedido>()
+                .Property(p => p.Estado)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<Producto>()
+                .Property(p => p.tueste)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<Producto>()
+                .Property(p => p.proceso)
+                .HasConversion<string>();
+
+            //  RELACIONES
 
             //Relacion Rol --> Usuario
             modelBuilder.Entity<Rol>()
@@ -49,6 +65,13 @@ namespace API_Waylan_Origin.Data
                 .HasMany(c => c.Productos)
                 .WithOne(p => p.Categoria)
                 .HasForeignKey(p => p.IdCategoria);
+
+            //Relacion muchos a muchos Producto --> Notas
+            modelBuilder.Entity<Producto>()
+                .HasMany(p => p.Notas)
+                .WithMany(n => n.Productos)
+                .UsingEntity(m => m.ToTable("ProductoNotas"));
+                
         }
 
     }

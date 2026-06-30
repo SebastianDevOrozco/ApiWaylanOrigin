@@ -28,6 +28,16 @@ namespace API_Waylan_Origin.Services.Productos
 
             productoNuevo.Activo = true;
 
+            if (productoCreate.IdNotas != null && productoCreate.IdNotas.Any())
+            {
+                // Traemos de la base de datos las entidades 'Nota' cuyos IDs coincidan
+                var notasExistentes = await _appDbContext.Notas
+                    .Where(n => productoCreate.IdNotas.Contains(n.id))
+                    .ToListAsync();
+
+                // Le asignamos esas entidades reales a la lista del producto
+                productoNuevo.Notas = notasExistentes;
+            }
             if (productoCreate.Imagen != null && productoCreate.Imagen.Length > 0)
             {
                 // A. Creamos un nombre único para el archivo (Ej: 9b1deb4d-3b7d.jpg)
@@ -66,6 +76,7 @@ namespace API_Waylan_Origin.Services.Productos
         {
             var productos = await _appDbContext.Productos
                 .Include(p => p.Categoria)
+                .Include(p => p.Notas)
                 .ToListAsync();
 
             if(productos == null)
@@ -78,6 +89,7 @@ namespace API_Waylan_Origin.Services.Productos
         {
             var productos = await _appDbContext.Productos
                 .Include(p => p.Categoria)
+                .Include(p => p.Notas)
                 .Where(p => p.Activo == true)
                 .ToListAsync();
 
@@ -154,6 +166,8 @@ namespace API_Waylan_Origin.Services.Productos
         public async Task EditarEstadoProducto(int id, bool nuevoEstado)
         {
             var producto = await ValidarExistenciaProducto(id);
+
+            await ValidarCategoria(producto.IdCategoria);
 
             producto.Activo = nuevoEstado;
             await _appDbContext.SaveChangesAsync();
