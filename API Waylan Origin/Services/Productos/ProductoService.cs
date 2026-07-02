@@ -23,21 +23,14 @@ namespace API_Waylan_Origin.Services.Productos
         public async Task<ProductoReadAdminDto> CrearProducto(ProductoCreateDto productoCreate)
         {
             await ValidarCategoria(productoCreate.IdCategoria);
+            var notasExistentes = await validacionNotas(productoCreate.IdNotas);
     
             var productoNuevo = _mapper.Map<Producto>(productoCreate);
 
             productoNuevo.Activo = true;
+            productoNuevo.Notas = notasExistentes;
 
-            if (productoCreate.IdNotas != null && productoCreate.IdNotas.Any())
-            {
-                // Traemos de la base de datos las entidades 'Nota' cuyos IDs coincidan
-                var notasExistentes = await _appDbContext.Notas
-                    .Where(n => productoCreate.IdNotas.Contains(n.id))
-                    .ToListAsync();
-
-                // Le asignamos esas entidades reales a la lista del producto
-                productoNuevo.Notas = notasExistentes;
-            }
+          
             if (productoCreate.Imagen != null && productoCreate.Imagen.Length > 0)
             {
                 // A. Creamos un nombre único para el archivo (Ej: 9b1deb4d-3b7d.jpg)
@@ -103,11 +96,13 @@ namespace API_Waylan_Origin.Services.Productos
         {
             var producto = await ValidarExistenciaProducto(id);
             await ValidarCategoria(productoUpdate.IdCategoria);
-
+            var notasExistentes = await validacionNotas(productoUpdate.IdNotas);
             string? rutaFotoVieja = producto.ImagenUrl;
 
             //mapeo los datos de texto
             _mapper.Map(productoUpdate, producto);
+
+            producto.Notas = notasExistentes;
 
             // 3. ¿El administrador subió una NUEVA imagen en los cambios?
             if (productoUpdate.Imagen != null && productoUpdate.Imagen.Length > 0)
@@ -188,6 +183,7 @@ namespace API_Waylan_Origin.Services.Productos
         private async Task<Producto> ValidarExistenciaProducto(int id)
         {
             var producto = await _appDbContext.Productos
+                .Include(p => p.Notas)
                .FirstOrDefaultAsync(p => p.Id == id);
 
             if (producto == null)
@@ -196,6 +192,27 @@ namespace API_Waylan_Origin.Services.Productos
             return producto;
         }
 
-        
+        private async Task<List<Nota>> validacionNotas(List<int> IdNotas)
+        {
+            //Valido si la nota tiene elementos 
+            if (IdNotas == null || !IdNotas.Any())
+            {
+                return new List<Nota>();
+            }
+
+            //verificamos que los Ids no esten repetidos 
+            var idsUnicos = IdNotas.Distinct().ToList();
+
+            // Traemos de la base de datos las entidades 'Nota' cuyos IDs coincidan
+            var notasExistentes = await _appDbContext.Notas
+                .Where(n => idsUnicos.Contains(n.id))
+                .ToListAsync();
+
+            //comparamos la cantidad 
+            if (notasExistentes.Count != idsUnicos.Count)
+                throw new ArgumentException("Uno o más IDs de notas no existen en la base de datos.");
+
+            return notasExistentes;
+        }
     }
 }

@@ -21,7 +21,6 @@ namespace API_Waylan_Origin.DTOs.ProductoDto
         [Required(ErrorMessage = "El tueste obligatorio")]
         public Tueste tueste { get; set; } 
 
-        [Required(ErrorMessage = "La Descripcion es obligatoria")]
         public string? Descripcion { get; set; }
 
         [Required(ErrorMessage = "El Precio es obligatorio")]

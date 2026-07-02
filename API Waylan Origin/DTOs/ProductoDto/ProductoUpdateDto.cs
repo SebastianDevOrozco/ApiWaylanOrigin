@@ -11,7 +11,9 @@ namespace API_Waylan_Origin.DTOs.ProductoDto
         [Required(ErrorMessage = "El Id de la categoria es obligatorio")]
         public int IdCategoria { get; set; }
 
-        [Required(ErrorMessage = "La Descripcion es obligatoria")]
+        [Required(ErrorMessage = "El Id de la nota es obligatorio")]
+        public List<int> IdNotas { get; set; } = new List<int>();
+
         public string? Descripcion { get; set; }
 
         [Required(ErrorMessage = "El Precio es obligatorio")]
