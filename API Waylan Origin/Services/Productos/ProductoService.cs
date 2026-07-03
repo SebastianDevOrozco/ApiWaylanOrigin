@@ -1,5 +1,6 @@
 ﻿using API_Waylan_Origin.Data;
 using API_Waylan_Origin.DTOs.ProductoDto;
+using API_Waylan_Origin.Enums;
 using API_Waylan_Origin.Interfaces.Producto;
 using API_Waylan_Origin.Models;
 using AutoMapper;
@@ -91,12 +92,41 @@ namespace API_Waylan_Origin.Services.Productos
 
             return _mapper.Map<IEnumerable<ProductoReadDto>>(productos);
         }
+        public async Task<IEnumerable<ProductoReadDto>> ListarProductosTueste(Tueste tueste)
+        {
+            var productos = await _appDbContext.Productos
+              .Include(p => p.Categoria)
+              .Include(p => p.Notas)
+              .Where(p => p.Activo == true && p.tueste == tueste)
+              .ToListAsync();
+
+            if (productos == null)
+                return new List<ProductoReadDto>();
+
+            return _mapper.Map<IEnumerable<ProductoReadDto>>(productos);
+        }
+        public async Task<IEnumerable<ProductoReadDto>> ListarProductosProceso(Proceso proceso)
+        {
+            var productos = await _appDbContext.Productos
+             .Include(p => p.Categoria)
+             .Include(p => p.Notas)
+             .Where(p => p.Activo == true && p.proceso == proceso)
+             .ToListAsync();
+
+            if (productos == null)
+                return new List<ProductoReadDto>();
+
+            return _mapper.Map<IEnumerable<ProductoReadDto>>(productos);
+        }
 
         public async Task<ProductoReadAdminDto> ActualizarProducto(int id, ProductoUpdateDto productoUpdate)
         {
+            //validaciones
             var producto = await ValidarExistenciaProducto(id);
             await ValidarCategoria(productoUpdate.IdCategoria);
             var notasExistentes = await validacionNotas(productoUpdate.IdNotas);
+
+
             string? rutaFotoVieja = producto.ImagenUrl;
 
             //mapeo los datos de texto
@@ -167,6 +197,8 @@ namespace API_Waylan_Origin.Services.Productos
             producto.Activo = nuevoEstado;
             await _appDbContext.SaveChangesAsync();
         }
+
+       
 
 
         //METODOS SECUNDARIOS

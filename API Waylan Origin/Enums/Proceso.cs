@@ -2,8 +2,8 @@
 {
     public enum Proceso
     {
-        Lavado,
-        Natural,
-        Honey
+        Lavado = 1,
+        Natural = 2,
+        Honey = 3
     }
 }

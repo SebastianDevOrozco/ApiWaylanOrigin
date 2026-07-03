@@ -23,6 +23,8 @@
 | **GET** | `/api/productos/activos` | Lista todos los productos (solo los `Activo = true`). | Público |
 | **GET** | `/api/productos/` | Lista todos los productos | Solo Admin |
 | **GET** | `/api/productos/{id}` | Muestra el detalle de un solo producto. | Público |
+| **GET** | `/api/productos/{tueste}` | filtra los productos por el tueste. | Público |
+| **GET** | `/api/productos/{tueste}` | filtra los productos por el proceso. | Público |
 | **POST** | `/api/productos` | Crea un producto nuevo. | Solo Admin |
 | **PUT** | `/api/productos/{id}` | Actualiza datos de un producto (precio, stock, etc.). | Solo Admin |
 | **DELETE**| `/api/productos/{id}` | Oculta un producto (Borrado lógico `Activo = false`). | Solo Admin |

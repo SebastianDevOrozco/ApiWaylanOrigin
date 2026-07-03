@@ -1,4 +1,5 @@
 ﻿using API_Waylan_Origin.DTOs.ProductoDto;
+using API_Waylan_Origin.Enums;
 
 namespace API_Waylan_Origin.Interfaces.Producto
 {
@@ -10,6 +11,8 @@ namespace API_Waylan_Origin.Interfaces.Producto
         //LEER
         Task<IEnumerable<ProductoReadAdminDto>> ListarProductosAdmin();
         Task<IEnumerable<ProductoReadDto>> ListarProductos();
+        Task<IEnumerable<ProductoReadDto>> ListarProductosTueste(Tueste tueste);
+        Task<IEnumerable<ProductoReadDto>> ListarProductosProceso(Proceso proceso);
 
         //ACTUALIZAR
         Task<ProductoReadAdminDto> ActualizarProducto(int id, ProductoUpdateDto productoUpdate);

@@ -1,4 +1,5 @@
 ﻿using API_Waylan_Origin.DTOs.ProductoDto;
+using API_Waylan_Origin.Enums;
 using API_Waylan_Origin.Interfaces.Producto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -37,6 +38,20 @@ namespace API_Waylan_Origin.Controllers
         public async Task<ActionResult<IEnumerable<ProductoReadDto>>> ListarProductos()
         {
             var productos = await _productoService.ListarProductos();
+            return Ok(productos);
+        }
+
+        [HttpGet("Lista de productos por tueste")]
+        public async Task<ActionResult<IEnumerable<ProductoReadDto>>> ListaProductosTueste(Tueste tueste)
+        {
+            var productos = await _productoService.ListarProductosTueste(tueste);
+            return Ok(productos);
+        }
+
+        [HttpGet("Lista de productos por proceso")]
+        public async Task<ActionResult<IEnumerable<ProductoReadDto>>> ListaProductosProceso(Proceso proceso)
+        {
+            var productos = await _productoService.ListarProductosProceso(proceso);
             return Ok(productos);
         }
 

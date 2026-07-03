@@ -1,4 +1,6 @@
-﻿namespace API_Waylan_Origin.DTOs.ProductoDto
+﻿using API_Waylan_Origin.DTOs.NotasDto;
+
+namespace API_Waylan_Origin.DTOs.ProductoDto
 {
     public class ProductoReadAdminDto
     {

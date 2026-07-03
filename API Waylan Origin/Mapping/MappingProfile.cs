@@ -1,5 +1,6 @@
 ﻿using API_Waylan_Origin.Controllers;
 using API_Waylan_Origin.DTOs.CategoriaDto;
+using API_Waylan_Origin.DTOs.NotasDto;
 using API_Waylan_Origin.DTOs.PedidosDto;
 using API_Waylan_Origin.DTOs.ProductoDto;
 using API_Waylan_Origin.DTOs.UsuarioDto;
@@ -55,6 +56,10 @@ namespace API_Waylan_Origin.Mapping
                 .ForMember(dest => dest.NombreProducto, opt => opt.MapFrom(src => src.Producto.Nombre))
                 .ForMember(dest => dest.ImagenProducto, opt => opt.MapFrom(src => src.Producto.ImagenUrl));
 
+            //NOTAS//
+            CreateMap<NotaCreateDto, Nota>();
+            CreateMap<NotaUpdateDto, Nota>();
+            CreateMap<Nota, NotaReadDto>();
 
 
         }

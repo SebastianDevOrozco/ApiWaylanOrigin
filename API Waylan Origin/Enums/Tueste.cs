@@ -2,8 +2,8 @@
 {
     public enum Tueste
     {
-        Claro,
-        Medio,
-        Oscuro
+        Claro = 1,
+        Medio = 2,
+        Oscuro = 3
     }
 }

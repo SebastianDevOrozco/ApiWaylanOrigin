@@ -1,4 +1,4 @@
-﻿namespace API_Waylan_Origin.DTOs.ProductoDto
+﻿namespace API_Waylan_Origin.DTOs.NotasDto
 {
     public class NotaReadDto
     {
