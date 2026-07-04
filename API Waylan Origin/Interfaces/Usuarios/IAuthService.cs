@@ -6,5 +6,6 @@ namespace API_Waylan_Origin.Interfaces.Usuarios
     {
         Task<UsuarioReadDto> Registrar(UsuarioCreateDto usuarioCreateDto);
         Task<string?> Login(string Email, string Password);
+        Task<bool> VerificarCorreo(string email, string token);
     }
 }

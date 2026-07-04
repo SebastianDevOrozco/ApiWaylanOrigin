@@ -10,6 +10,11 @@
         public DateTime FechaRegistro { get; set; } = DateTime.Now;
         public bool Activo { get; set; }
 
+    
+        public bool EmailVerificado { get; set; } = false;
+        public string? TokenVerificacion { get; set; }
+        public DateTime? TokenExpiracion { get; set; }
+
         //Relaciones
         public Rol Rol { get; set; } = null!;
         public ICollection<Pedido> Pedidos { get; set; } = new HashSet<Pedido>();

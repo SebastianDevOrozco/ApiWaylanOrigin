@@ -42,6 +42,14 @@ namespace API_Waylan_Origin.Controllers
             return Ok(new { token });
         }
 
+        [HttpPost("Verificacion-Email")]
+        public async Task<IActionResult> VerificarEmailUsuario(string Email, string Codigo)
+        {
+            await _authService.VerificarCorreo(Email, Codigo);
+
+            return NoContent();
+        }
+
 
     }
 }
