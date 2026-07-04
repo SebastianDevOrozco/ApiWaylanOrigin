@@ -21,7 +21,7 @@ namespace API_Waylan_Origin.Services.Autenticacion
 
         private readonly IMapper _mapper;
         private readonly AppDbContext _appDbContext;
-        private readonly IConfiguration _config; // esto es necesario para leer la clave jwt
+        private readonly IConfiguration _config; // esto es necesario para leer la clave jwt y la verificacion del correo
 
         public AuthService(IMapper mapper, AppDbContext appDbContext, IConfiguration config)
         {
