@@ -5,6 +5,7 @@ using API_Waylan_Origin.Interfaces.Notas;
 using API_Waylan_Origin.Interfaces.Pedidos;
 using API_Waylan_Origin.Interfaces.Producto;
 using API_Waylan_Origin.Interfaces.Usuarios;
+using API_Waylan_Origin.Interfaces.Wompi;
 using API_Waylan_Origin.Mapping;
 using API_Waylan_Origin.Services.Autenticacion;
 using API_Waylan_Origin.Services.Categorias;
@@ -12,6 +13,7 @@ using API_Waylan_Origin.Services.Notas;
 using API_Waylan_Origin.Services.Pedidos;
 using API_Waylan_Origin.Services.Productos;
 using API_Waylan_Origin.Services.Usuarios;
+using API_Waylan_Origin.Services.Wompi;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -74,6 +76,7 @@ builder.Services.AddScoped<ICategoriaService, CategoriaService>();
 builder.Services.AddScoped<IProductoService, ProductoService>();
 builder.Services.AddScoped<IPedidoService, PedidoService>();
 builder.Services.AddScoped<INotaService, NotaService>();
+builder.Services.AddScoped<IPagosService, PagosService>();
 
 // --------------------------------
 // 4. Registro de AutoMapper

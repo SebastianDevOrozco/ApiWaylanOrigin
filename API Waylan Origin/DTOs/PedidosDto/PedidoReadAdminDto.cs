@@ -9,6 +9,7 @@
         public string EmailUsuario {  get; set; } = string.Empty;
         public decimal Total { get; set; }
         public string EstadoPedido { get; set; } = string.Empty;
+        public string EstadoPago { get; set; } = string.Empty;
         public DateTime FechaPedido { get; set; }
 
         public ICollection<DetallePedidoReadDto> DetallesAdmin { get; set; } = new List<DetallePedidoReadDto>();
