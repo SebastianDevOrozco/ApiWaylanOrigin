@@ -119,7 +119,22 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+// -------------------------------
+// 7. CORS
+// -------------------------------
 
+// Definimos un nombre para nuestra política
+var ReglasCors = "ReglasCorsFrontend";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: ReglasCors, policy =>
+    {
+        policy.AllowAnyOrigin() // cuando este en la nube debo cambiarlo por el dominio real de la pagina web
+              .AllowAnyHeader()   // Permite cualquier tipo de encabezado (como los tokens de seguridad)
+              .AllowAnyMethod();  // Permite cualquier método (GET, POST, PUT, DELETE)
+    });
+});
 
 // Add services to the container.
 
@@ -142,6 +157,8 @@ app.UseHttpsRedirection();
 
 //permisos para habilitar los archivos estaticos
 app.UseStaticFiles();
+
+app.UseCors(ReglasCors);
 
 app.UseAuthentication();
 
