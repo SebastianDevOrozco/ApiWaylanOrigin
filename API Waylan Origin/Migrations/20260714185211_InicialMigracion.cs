@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace API_Waylan_Origin.Migrations
 {
     /// <inheritdoc />
-    public partial class MigracionInicial : Migration
+    public partial class InicialMigracion : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -23,12 +23,28 @@ namespace API_Waylan_Origin.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Nombre = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Descripcion = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                    Descripcion = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Activo = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_categorias", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Notas",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Nombre = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Notas", x => x.id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -56,7 +72,11 @@ namespace API_Waylan_Origin.Migrations
                     Nombre = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     IdCategoria = table.Column<int>(type: "int", nullable: false),
-                    Descripcion = table.Column<string>(type: "longtext", nullable: false)
+                    tueste = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    proceso = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Descripcion = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Precio = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
                     Stock = table.Column<int>(type: "int", nullable: false),
@@ -90,7 +110,11 @@ namespace API_Waylan_Origin.Migrations
                     Password = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     FechaRegistro = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Activo = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    Activo = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    EmailVerificado = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    TokenVerificacion = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    TokenExpiracion = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -105,16 +129,50 @@ namespace API_Waylan_Origin.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "ProductoNotas",
+                columns: table => new
+                {
+                    Notasid = table.Column<int>(type: "int", nullable: false),
+                    ProductosId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductoNotas", x => new { x.Notasid, x.ProductosId });
+                    table.ForeignKey(
+                        name: "FK_ProductoNotas_Notas_Notasid",
+                        column: x => x.Notasid,
+                        principalTable: "Notas",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProductoNotas_Productos_ProductosId",
+                        column: x => x.ProductosId,
+                        principalTable: "Productos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "pedidos",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Direccion = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CodigoSeguimiento = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     IdUsuario = table.Column<int>(type: "int", nullable: false),
                     Total = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
-                    EstadoPedido = table.Column<string>(type: "longtext", nullable: false)
+                    Estado = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    FechaPedido = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    FechaPedido = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    EstadoPago = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    WompiTransactionId = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    FechaPago = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -173,6 +231,11 @@ namespace API_Waylan_Origin.Migrations
                 column: "IdUsuario");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductoNotas_ProductosId",
+                table: "ProductoNotas",
+                column: "ProductosId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Productos_IdCategoria",
                 table: "Productos",
                 column: "IdCategoria");
@@ -190,16 +253,22 @@ namespace API_Waylan_Origin.Migrations
                 name: "DetallesPedido");
 
             migrationBuilder.DropTable(
-                name: "Productos");
+                name: "ProductoNotas");
 
             migrationBuilder.DropTable(
                 name: "pedidos");
 
             migrationBuilder.DropTable(
-                name: "categorias");
+                name: "Notas");
+
+            migrationBuilder.DropTable(
+                name: "Productos");
 
             migrationBuilder.DropTable(
                 name: "Usuarios");
+
+            migrationBuilder.DropTable(
+                name: "categorias");
 
             migrationBuilder.DropTable(
                 name: "Roles");

@@ -30,7 +30,7 @@ var builder = WebApplication.CreateBuilder(args);
 // 1. Configurar conexión a MySQL
 // -------------------------------
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = builder.Configuration.GetConnectionString("AzureConnection");
 
 //configuracion para que detecte la version de mysql
 builder.Services.AddDbContext<AppDbContext>(options =>

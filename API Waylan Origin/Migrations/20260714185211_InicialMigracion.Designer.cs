@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_Waylan_Origin.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260711202106_CamposDeWompiEnEntidadPedidos")]
-    partial class CamposDeWompiEnEntidadPedidos
+    [Migration("20260714185211_InicialMigracion")]
+    partial class InicialMigracion
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -103,6 +103,10 @@ namespace API_Waylan_Origin.Migrations
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CodigoSeguimiento")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Direccion")
                         .IsRequired()
                         .HasColumnType("longtext");
 
