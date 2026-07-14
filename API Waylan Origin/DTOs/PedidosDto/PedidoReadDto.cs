@@ -2,9 +2,11 @@
 {
     public class PedidoReadDto
     {
+
         public string CodigoSeguimiento { get; set; } = string.Empty;
+        public string Direccion { get; set; } = string.Empty;
         public decimal Total { get; set; }
-        public string EstadoPedido { get; set; } = string.Empty;
+        public string Estado { get; set; } = string.Empty;
         public string EstadoPago { get; set; } = string.Empty;
         public DateTime FechaPedido { get; set; } 
 

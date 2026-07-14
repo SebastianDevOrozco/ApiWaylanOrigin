@@ -54,10 +54,10 @@ namespace API_Waylan_Origin.Services.Wompi
             }
 
             // 3. ACTUALIZAR LA BASE DE DATOS
-            // Convertimos la referencia (ej: "105") a número para buscar en tu tabla Pedidos
-            if (int.TryParse(transaccion.Reference, out int idPedido))
-            {
-                var pedido = await _context.pedidos.FirstOrDefaultAsync(p => p.Id == idPedido);
+          
+            string codigo = transaccion.Reference;
+
+                var pedido = await _context.pedidos.FirstOrDefaultAsync(p => p.CodigoSeguimiento == codigo);
 
                 if (pedido != null)
                 {
@@ -76,9 +76,8 @@ namespace API_Waylan_Origin.Services.Wompi
                     pedido.FechaPago = DateTime.UtcNow;
 
                     await _context.SaveChangesAsync();
-                    Console.WriteLine($"✅ Pedido {idPedido} actualizado a {pedido.EstadoPago}");
+                    Console.WriteLine($"✅ Pedido {codigo} actualizado a {pedido.EstadoPago}");
                 }
-            }
         }
     }
 }

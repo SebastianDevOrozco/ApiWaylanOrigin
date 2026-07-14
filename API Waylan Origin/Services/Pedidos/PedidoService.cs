@@ -22,31 +22,26 @@ namespace API_Waylan_Origin.Services.Pedidos
 
         public async Task<PedidoReadDto> CrearPedido(int usuarioId, PedidoCreateDto pedidoDto)
         {
-            var nuevoPedido = new Pedido
-            {
-                Estado = EstadoPedido.Pendiente,
-                IdUsuario = usuarioId,
-                CodigoSeguimiento = RandomNumberGenerator.GetHexString(6).ToUpper()
-            };
+
+            var nuevoPedido = _mapper.Map<Pedido>(pedidoDto);
+
+            nuevoPedido.IdUsuario = usuarioId;
 
             decimal TotalCompra = 0;
 
-            foreach(var item in pedidoDto.Detalles)
+
+            foreach (var detalle in nuevoPedido.DetallesPedido)
             {
-                var producto = await ValidacionProducto(item.IdProducto, item.Cantidad);
+                var producto = await ValidacionProducto(detalle.IdProducto, detalle.Cantidad);
 
-                //Restamos la cantidad solicitada al Stock del producto
-                producto.Stock -= item.Cantidad;
+                // Restamos la cantidad solicitada al Stock del producto
+                producto.Stock -= detalle.Cantidad;
 
-                //Calculamos el precio de esta linea
-                TotalCompra += (producto.Precio * item.Cantidad);
+                // Le asignamos el precio real de la base de datos al detalle que ya existe
+                detalle.PrecioUnitario = producto.Precio;
 
-                //Mapear detalle de pedido
-                var nuevoDetalle = _mapper.Map<DetallePedido>(item);
-                nuevoDetalle.PrecioUnitario = producto.Precio;
-
-                //añadimos a la lista del pedido
-                nuevoPedido.DetallesPedido.Add(nuevoDetalle);
+                // Sumamos al total de la compra
+                TotalCompra += (producto.Precio * detalle.Cantidad);
             }
 
             //Despues de hacer el proceso con todos los items de la lista asignamos el total a la variable de la entidad

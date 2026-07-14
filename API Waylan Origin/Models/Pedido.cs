@@ -1,14 +1,16 @@
 ﻿using API_Waylan_Origin.Enums;
+using System.Security.Cryptography;
 
 namespace API_Waylan_Origin.Models
 {
     public class Pedido
     {
         public int Id { get; set; }
-        public string CodigoSeguimiento { get; set; } = string.Empty;
+        public string Direccion { get; set; } = string.Empty;
+        public string CodigoSeguimiento { get; set; } = RandomNumberGenerator.GetHexString(6).ToUpper();
         public int IdUsuario { get; set; }
         public decimal Total { get; set; }
-        public EstadoPedido Estado { get; set; } 
+        public EstadoPedido Estado { get; set; } = EstadoPedido.Pendiente;
         public DateTime FechaPedido { get; set; } = DateTime.Now;
 
         // Atributos que se relacionan a WOMPI
