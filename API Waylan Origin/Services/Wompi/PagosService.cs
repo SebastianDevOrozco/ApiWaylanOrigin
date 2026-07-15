@@ -48,7 +48,7 @@ namespace API_Waylan_Origin.Services.Wompi
                 // Si el hash que calculamos no es igual al que envió Wompi, es un fraude.
                 if (hashCalculado != notificacion.Signature.Checksum.ToLower())
                 {
-                    Console.WriteLine("⚠️ ALERTA DE SEGURIDAD: Firma de Wompi inválida.");
+                    Console.WriteLine("ALERTA DE SEGURIDAD: Firma de Wompi inválida.");
                     return; // Cortamos la ejecución, no actualizamos la BD.
                 }
             }
